@@ -73,3 +73,11 @@ React 19 · Vite · CSS thuần · Canvas API (mưa hoa + xuất ảnh thiệp) 
 ---
 
 *Được làm với 100% độ sến. Chúc mừng 20/10 — mãi mãi tuổi 18 nhé!* 🌺🌺💐🌺🥀❤️🪷🪷❤️‍🔥🐍🌹🩵🌷🌻🪻
+
+## Deploy lên Vercel
+
+Project đã có sẵn cấu hình trong `vercel.json` (framework Vite, build `npm run build`, thư mục xuất ra `dist`, Node 20 theo `.nvmrc`).
+
+1. Vào [vercel.com](https://vercel.com) → **Add New → Project**
+2. Chọn repo `chuc-mung-20-10` từ GitHub và bấm **Import**
+3. Vercel tự nhận diện cấu hình — cứ bấm **Deploy** là xong, không cần chỉnh gì thêm
