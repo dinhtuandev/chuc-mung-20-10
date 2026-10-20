@@ -1,7 +1,6 @@
 // ===== Bé rắn góp vui · Lời chúc xoay vòng + 4 tấm thiệp · Góc cảm hứng huyền thoại =====
 import { useEffect, useState } from 'react';
 import { GREETING_CARDS, ROTATING_WISHES, SNAKE_LINES } from '../data';
-import { INSPO_1, INSPO_2 } from '../assets';
 
 export function SnakeSection() {
   const [line, setLine] = useState(SNAKE_LINES[0]);
@@ -48,20 +47,32 @@ export function CardsSection() {
 }
 
 export function InspoCorner() {
+  // Tải lười module ảnh cảm hứng (dynamic import) để bundle ban đầu nhẹ, trang mở nhanh
+  const [imgs, setImgs] = useState(null);
+  useEffect(() => {
+    let on = true;
+    import('../assetsInspo').then((m) => { if (on) setImgs(m); });
+    return () => { on = false; };
+  }, []);
+
   return (
     <section className="section" id="cam-hung">
       <h2 className="section-title">🖼️ GÓC CẢM HỨNG HUYỀN THOẠI 🖼️</h2>
       <p className="section-desc">Hai tấm thiệp mẫu bất hủ đã truyền cảm hứng cho cả cái web sến này!</p>
-      <div className="inspo-grid">
-        <figure>
-          <img src={INSPO_1} alt="Thiệp mẫu: Rất tuyệt vời — tặng hoa em nhé, nền hoa đỏ trời xanh" />
-          <figcaption>🌹 "RẤT TUYỆT VỜI — Tặng hoa em nhé!"</figcaption>
-        </figure>
-        <figure>
-          <img src={INSPO_2} alt="Thiệp mẫu: Đêm muộn chúc ngủ ngon, mơ đẹp nhé, hoa hồng phát sáng" />
-          <figcaption>🌙 "Đêm muộn — Chúc Ngủ Ngon — Mơ đẹp nhé"</figcaption>
-        </figure>
-      </div>
+      {imgs ? (
+        <div className="inspo-grid">
+          <figure>
+            <img src={imgs.INSPO_1} alt="Thiệp mẫu: Rất tuyệt vời — tặng hoa em nhé, nền hoa đỏ trời xanh" loading="lazy" />
+            <figcaption>🌹 "RẤT TUYỆT VỜI — Tặng hoa em nhé!"</figcaption>
+          </figure>
+          <figure>
+            <img src={imgs.INSPO_2} alt="Thiệp mẫu: Đêm muộn chúc ngủ ngon, mơ đẹp nhé, hoa hồng phát sáng" loading="lazy" />
+            <figcaption>🌙 "Đêm muộn — Chúc Ngủ Ngon — Mơ đẹp nhé"</figcaption>
+          </figure>
+        </div>
+      ) : (
+        <p className="section-desc">Đang rước hai tấm thiệp huyền thoại về… 🌹</p>
+      )}
     </section>
   );
 }

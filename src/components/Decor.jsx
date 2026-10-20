@@ -21,7 +21,8 @@ function PetalCanvas() {
     resize();
     window.addEventListener('resize', resize);
 
-    for (let i = 0; i < 46; i++) {
+    const COUNT = window.innerWidth < 640 ? 18 : 30;
+    for (let i = 0; i < COUNT; i++) {
       petals.push({
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
@@ -29,32 +30,28 @@ function PetalCanvas() {
         speedY: 0.6 + Math.random() * 1.6,
         sway: 0.6 + Math.random() * 1.8,
         phase: Math.random() * Math.PI * 2,
-        spin: (Math.random() - 0.5) * 0.04,
-        rot: Math.random() * Math.PI * 2,
         emoji: EMOJIS[(Math.random() * EMOJIS.length) | 0],
       });
     }
 
     let last = performance.now();
+    let lastDraw = 0;
     const tick = (now) => {
       raf = requestAnimationFrame(tick);
-      const dt = Math.min((now - last) / 1000, 0.05);
+      if (now - lastDraw < 33) return; // chốt ~30fps cho nhẹ máy — hoa rơi chậm nên vẫn mượt
+      const dt = Math.min((now - last) / 1000, 0.08);
       last = now;
+      lastDraw = now;
       ctx.clearRect(0, 0, w, h);
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
       for (const p of petals) {
         p.phase += dt * p.sway;
         p.y += p.speedY * 60 * dt;
         p.x += Math.sin(p.phase) * 0.7;
-        p.rot += p.spin;
         if (p.y > h + 40) { p.y = -40; p.x = Math.random() * w; }
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.rot);
         ctx.font = `${p.size}px serif`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(p.emoji, 0, 0);
-        ctx.restore();
+        ctx.fillText(p.emoji, p.x, p.y);
       }
     };
     raf = requestAnimationFrame(tick);

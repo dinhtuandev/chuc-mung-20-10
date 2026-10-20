@@ -35,6 +35,7 @@ h1, h2, h3, .display-font { font-family: 'Baloo 2', 'Be Vietnam Pro', sans-serif
   position: fixed; inset: -60vmax; z-index: 0; pointer-events: none;
   background: repeating-conic-gradient(from 0deg at 50% 42%, rgba(255, 255, 160, 0.28) 0deg 9deg, rgba(255, 255, 160, 0) 9deg 18deg);
   animation: rays-spin 70s linear infinite;
+  will-change: transform;
 }
 @keyframes rays-spin { to { transform: rotate(360deg); } }
 
@@ -69,12 +70,12 @@ h1, h2, h3, .display-font { font-family: 'Baloo 2', 'Be Vietnam Pro', sans-serif
   border-radius: 14px; overflow: hidden;
 }
 .gold-frame::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.35) 48%, transparent 62%);
-  background-size: 280% 280%;
+  content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 55%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.35), transparent);
   animation: shine-sweep 5.5s ease-in-out infinite;
+  will-change: transform;
 }
-@keyframes shine-sweep { 0% { background-position: 120% 0; } 55%, 100% { background-position: -60% 0; } }
+@keyframes shine-sweep { 0% { transform: translateX(-130%) skewX(-10deg); } 55%, 100% { transform: translateX(330%) skewX(-10deg); } }
 .frame-rose { position: absolute; font-size: 30px; filter: drop-shadow(0 0 6px rgba(255, 0, 90, 0.7)); }
 .frame-rose.tl { top: -14px; left: -12px; }
 .frame-rose.tr { top: -14px; right: -12px; }
@@ -142,6 +143,8 @@ h1, h2, h3, .display-font { font-family: 'Baloo 2', 'Be Vietnam Pro', sans-serif
   border-radius: 22px;
   box-shadow: 0 0 34px rgba(255, 46, 136, 0.55), inset 0 0 24px rgba(255, 215, 0, 0.35);
   padding: 26px 20px 30px; margin: 30px 0;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 480px;
 }
 .section-title {
   margin: 0 0 6px; font-size: clamp(26px, 4.6vw, 38px); font-weight: 900;
@@ -166,11 +169,13 @@ h1, h2, h3, .display-font { font-family: 'Baloo 2', 'Be Vietnam Pro', sans-serif
   transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 .btn-shiny::after {
-  content: ''; position: absolute; top: 0; bottom: 0; width: 40%; left: -60%;
+  content: ''; position: absolute; top: 0; bottom: 0; width: 40%; left: 0;
   background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  transform: translateX(-170%);
   animation: btn-shine 2.8s ease-in-out infinite;
+  will-change: transform;
 }
-@keyframes btn-shine { 0%, 60% { left: -60%; } 100% { left: 130%; } }
+@keyframes btn-shine { 0%, 60% { transform: translateX(-170%); } 100% { transform: translateX(370%); } }
 .btn-shiny:hover { transform: scale(1.05); }
 .btn-shiny:active { transform: scale(0.96); box-shadow: 0 2px 0 #8f0040; }
 .btn-shiny:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
